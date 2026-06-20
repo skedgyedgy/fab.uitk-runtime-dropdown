@@ -599,6 +599,12 @@ namespace Fab.UITKDropdown
         public long SubMenuOpenDelay { get; set; } = 200;
 
         /// <summary>
+        /// If true, only UI elements behind this menu's PanelRenderer will be blocked.
+        /// Otherwise, everything behind the menu itself will be blocked.
+        /// </summary>
+        public bool DontBlockThisPanelRenderer { get; set; } = false;
+
+        /// <summary>
         ///  The blocking layer of the dropdown.
         /// </summary>
         public BlockingLayer BlockingLayer => blockingLayer;
@@ -731,6 +737,9 @@ namespace Fab.UITKDropdown
 
             Build(menu);
             root.Add(blockingLayer);
+            if (DontBlockThisPanelRenderer) {
+                blockingLayer.SendToBack();
+            }
 
 
 
