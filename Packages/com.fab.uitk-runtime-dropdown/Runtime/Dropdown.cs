@@ -604,6 +604,16 @@ namespace Fab.UITKDropdown
         public BlockingLayer BlockingLayer => blockingLayer;
 
         /// <summary>
+        /// If the menu is currently open.
+        /// </summary>
+        public bool IsOpen => ActiveMenu != null;
+
+        /// <summary>
+        /// The  currently active menu.
+        /// </summary>
+        public DropdownMenu ActiveMenu { get; private set; }
+
+        /// <summary>
         /// Creates a default menu item.
         /// </summary>
         public static VisualElement MakeDefaultItem()
@@ -687,8 +697,10 @@ namespace Fab.UITKDropdown
             if (menu == null)
                 throw new ArgumentNullException(nameof(menu));
 
-            if (blockingLayer.parent != null)
+            if (IsOpen)
                 Close();
+
+            ActiveMenu = menu;
 
             targetRect = targetWorldBound;
 
@@ -776,6 +788,8 @@ namespace Fab.UITKDropdown
         /// </summary>
         public void Close()
         {
+            ActiveMenu = null;
+
             if (rootMenu != null)
             {
                 rootMenu.CloseSubMenus();
